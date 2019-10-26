@@ -20,7 +20,7 @@ import glob as gl
 
 # This contains the code needed to run the actual app.
 
-#mapbox_access_token = 'pk.eyJ1IjoiZWxlemluZSIsImEiOiJjazF0djRpdmEwMzFuM3BtdG83bmR6c3p6In0.gc8ylqc0h0kZ48-BJf3D0g'
+#mapbox_access_token = '' #for possible future use
 
 # SERVER
 server = flask.Flask(__name__)
@@ -73,7 +73,7 @@ dates = ['2005-01-01','2006-01-01','2007-01-01','2008-01-01','2009-01-01','2010-
 # CREATE FIGURES
 
 # RIVER DISCHARGE, LEVEL AND RAIN (TWO AXES - second is level and rain, interchangeable)
-#initialize with plot showing discharge and level for one station
+#initialize with plot showing discharge and rain for one station
 graph = make_subplots(specs=[[{"secondary_y": True}]])
 
 trace_flow = go.Scatter(x = river_flow.index, y = river_flow['06HB002'], name='Flow', line= dict(width = 2, color = 'rgb(229,151,50)'))
@@ -87,7 +87,7 @@ graph.add_trace(trace_flow, secondary_y=False)
 graph.add_trace(trace_rain, secondary_y=True)
 graph.update_layout(graph_layout)
 
-# MAP OF STATIONS (BOTH RIVER AND RAIN, DIFFERENT COLORS)
+# MAP OF STATIONS (BOTH RIVER AND RAIN, DIFFERENT COLORS) ---> haven't done that yet. currently only river.
 geomap = go.Scattergeo(lat = river_lats, lon = river_lons, text = river_station_info['STATION_NAME'].astype(str)) #mapbox(lat = lats, lon = lons, text = station_info['STATION_NAME'].astype(str))
 map_layout = go.Layout(hovermode = 'closest',height=400,margin=dict(r=0, l=10, t=0, b=20), geo = dict(
         scope = 'north america',
@@ -118,7 +118,7 @@ map_layout = go.Layout(hovermode = 'closest',height=400,margin=dict(r=0, l=10, t
         )
     ))
 
-#mapbox code below uses satellite imagery but I couldn't get it to zoom in
+#mapbox code below uses satellite imagery but I couldn't get it to allow zooming, so ignored for now, though i think it would be nicer
 '''
 mapbox = go.layout.Mapbox(
         accesstoken = mapbox_access_token,
